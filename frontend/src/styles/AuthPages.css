@@ -1,0 +1,250 @@
+.auth-container {
+    display: flex;
+    min-height: 100vh;
+    background: #1a1a1a;
+}
+
+.auth-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 40px;
+    background: #1a1a1a;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 40px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.auth-header h1 {
+    font-size: 32px;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.auth-header p {
+    color: #999;
+    font-size: 15px;
+}
+
+.auth-form {
+    width: 100%;
+    max-width: 400px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.form-group input {
+    padding: 12px 15px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    background: #2a2a2a;
+    color: #fff;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.form-group input::placeholder {
+    color: #666;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #00d4ff;
+    background: #333;
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+}
+
+.form-group input.input-error {
+    border-color: #ef5350;
+    background: rgba(239, 83, 80, 0.05);
+}
+
+.error-message {
+    color: #ef5350;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.auth-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #00d4ff, #7c3aed);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.auth-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+}
+
+.auth-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 30px;
+    width: 100%;
+    max-width: 400px;
+    color: #999;
+    font-size: 14px;
+}
+
+.auth-footer p {
+    margin: 10px 0;
+}
+
+.auth-footer a {
+    color: #00d4ff;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.auth-footer a:hover {
+    color: #00b8d4;
+    text-decoration: underline;
+}
+
+.auth-sidebar {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-sidebar::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(30px, 30px);
+    }
+}
+
+.sidebar-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 50px;
+    color: #fff;
+}
+
+.sidebar-content h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #00d4ff, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.sidebar-content p {
+    font-size: 16px;
+    color: #aaa;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.sidebar-features {
+    text-align: left;
+    margin-top: 40px;
+}
+
+.feature {
+    color: #ccc;
+    font-size: 15px;
+    margin: 15px 0;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .auth-container {
+        flex-direction: column;
+    }
+
+    .auth-card {
+        padding: 30px 20px;
+    }
+
+    .auth-header h1 {
+        font-size: 24px;
+    }
+
+    .auth-form {
+        max-width: 100%;
+    }
+
+    .auth-header {
+        max-width: 100%;
+    }
+
+    .auth-footer {
+        max-width: 100%;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-sidebar {
+        min-height: 300px;
+        padding: 40px 20px;
+    }
+
+    .sidebar-content {
+        padding: 20px;
+    }
+
+    .sidebar-content h2 {
+        font-size: 24px;
+    }
+}
