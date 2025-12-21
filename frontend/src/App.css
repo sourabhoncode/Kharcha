@@ -18,6 +18,12 @@ body {
     display: flex;
     min-height: 100vh;
     background: #1a1a1a;
+    flex-direction: column;
+}
+
+.app-wrapper {
+    display: flex;
+    flex: 1;
 }
 
 /* SIDEBAR STYLES */

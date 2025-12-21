@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../context/UserContext';
 import { useExpenses } from '../context/ExpensesContext';
+import Logo from '../components/Logo';
+import Footer from '../components/Footer';
 import '../App.css';
 
 const Dashboard: React.FC = () => {
@@ -83,25 +85,35 @@ const Dashboard: React.FC = () => {
 
     return (
         <div className="App">
-            {/* Sidebar */}
-            <aside className="sidebar">
-                <div className="profile-section">
-                    <div className="profile-avatar-wrapper">
-                        <span className="profile-emoji">{user.avatar || '👤'}</span>
+            <div className="app-wrapper">
+                {/* Sidebar */}
+                <aside className="sidebar">
+                    <div className="sidebar-header" style={{ marginBottom: '30px', paddingBottom: '20px', borderBottom: '1px solid rgba(0, 212, 255, 0.2)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'center' }}>
+                            <Logo size="small" />
+                            <div style={{ textAlign: 'left' }}>
+                                <h2 style={{ margin: '0', color: '#00d4ff', fontSize: '16px', fontWeight: '700' }}>Your</h2>
+                                <h2 style={{ margin: '0', color: '#fff', fontSize: '16px', fontWeight: '700' }}>Kharcha</h2>
+                            </div>
+                        </div>
                     </div>
-                    <h3 className="profile-name">{user.firstName} {user.lastName}</h3>
-                    <p style={{ fontSize: '12px', color: '#999', margin: '5px 0 0 0' }}>{user.email}</p>
-                    <button
-                        className="edit-profile-btn"
-                        onClick={() => navigate('/edit-profile')}
-                    >
-                        ✏️ Edit Profile
-                    </button>
-                </div>
+                    <div className="profile-section">
+                        <div className="profile-avatar-wrapper">
+                            <span className="profile-emoji">{user.avatar || '👤'}</span>
+                        </div>
+                        <h3 className="profile-name">{user.firstName} {user.lastName}</h3>
+                        <p style={{ fontSize: '12px', color: '#999', margin: '5px 0 0 0' }}>{user.email}</p>
+                        <button
+                            className="edit-profile-btn"
+                            onClick={() => navigate('/edit-profile')}
+                        >
+                            ✏️ Edit Profile
+                        </button>
+                    </div>
 
-                <nav className="nav-menu">
-                    <div className={`nav-item ${activeNav === 'home' ? 'active' : ''}`} onClick={() => setActiveNav('home')}>
-                        <span className="nav-icon">🏠</span>
+                    <nav className="nav-menu">
+                        <div className={`nav-item ${activeNav === 'home' ? 'active' : ''}`} onClick={() => setActiveNav('home')}>
+                            <span className="nav-icon">🏠</span>
                         <span className="nav-label">Home</span>
                     </div>
                     <div className={`nav-item ${activeNav === 'expenses' ? 'active' : ''}`} onClick={() => { setActiveNav('expenses'); navigate('/expenses'); }}>
@@ -250,6 +262,8 @@ const Dashboard: React.FC = () => {
                     </div>
                 </section>
             </main>
+            </div>
+            <Footer />
         </div>
     );
 };

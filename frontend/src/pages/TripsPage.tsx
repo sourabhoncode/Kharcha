@@ -1,6 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../context/UserContext';
+import Logo from '../components/Logo';
+import Footer from '../components/Footer';
 import '../styles/TripsPage.css';
 
 interface Trip {
@@ -167,7 +169,17 @@ const TripsPage: React.FC = () => {
 
     return (
         <div className="App">
+            <div className="app-wrapper">
             <aside className="sidebar">
+                <div className="sidebar-header" style={{ marginBottom: '30px', paddingBottom: '20px', borderBottom: '1px solid rgba(0, 212, 255, 0.2)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'center' }}>
+                        <Logo size="small" />
+                        <div style={{ textAlign: 'left' }}>
+                            <h2 style={{ margin: '0', color: '#00d4ff', fontSize: '16px', fontWeight: '700' }}>Your</h2>
+                            <h2 style={{ margin: '0', color: '#fff', fontSize: '16px', fontWeight: '700' }}>Kharcha</h2>
+                        </div>
+                    </div>
+                </div>
                 <div className="profile-section">
                     <div className="profile-avatar-wrapper">
                         <span className="profile-emoji">{user.avatar || '👤'}</span>
@@ -482,6 +494,8 @@ const TripsPage: React.FC = () => {
                     </>
                 )}
             </main>
+            </div>
+            <Footer />
         </div>
     );
 };

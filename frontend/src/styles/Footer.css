@@ -1,0 +1,118 @@
+/* Footer Styling */
+
+.app-footer {
+    background: linear-gradient(180deg, rgba(26, 26, 26, 0.8) 0%, rgba(10, 10, 10, 0.95) 100%);
+    border-top: 2px solid rgba(0, 212, 255, 0.2);
+    padding: 40px 20px;
+    margin-top: 60px;
+    color: #ccc;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 30px;
+}
+
+.footer-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-branding {
+    grid-column: 1;
+}
+
+.footer-logo-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.footer-brand-text h3 {
+    margin: 0 0 4px 0;
+    color: #00d4ff;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.footer-brand-text p {
+    margin: 0;
+    color: #999;
+    font-size: 12px;
+}
+
+.footer-section h4 {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0 0 16px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-section li a {
+    color: #999;
+    text-decoration: none;
+    font-size: 13px;
+    transition: all 0.3s ease;
+}
+
+.footer-section li a:hover {
+    color: #00d4ff;
+    padding-left: 4px;
+}
+
+.footer-copyright {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding-top: 30px;
+    border-top: 1px solid rgba(0, 212, 255, 0.1);
+    color: #666;
+    font-size: 12px;
+}
+
+.footer-copyright p {
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .footer-branding {
+        grid-column: auto;
+    }
+
+    .footer-copyright {
+        grid-column: auto;
+    }
+
+    .footer-logo-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-section h4 {
+        font-size: 12px;
+    }
+
+    .footer-section li a {
+        font-size: 12px;
+    }
+}
