@@ -63,14 +63,22 @@
     gap: 10px;
 }
 
-.footer-section li a {
+.footer-section li a,
+.footer-link {
     color: #999;
     text-decoration: none;
     font-size: 13px;
     transition: all 0.3s ease;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-family: inherit;
+    text-align: left;
 }
 
-.footer-section li a:hover {
+.footer-section li a:hover,
+.footer-link:hover {
     color: #00d4ff;
     padding-left: 4px;
 }
@@ -86,6 +94,17 @@
 
 .footer-copyright p {
     margin: 0;
+}
+
+.footer-creator {
+    color: #00d4ff;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.creator-name {
+    color: #ff6b9d;
+    font-weight: 700;
 }
 
 /* Responsive */

@@ -170,330 +170,330 @@ const TripsPage: React.FC = () => {
     return (
         <div className="App">
             <div className="app-wrapper">
-            <aside className="sidebar">
-                <div className="sidebar-header" style={{ marginBottom: '30px', paddingBottom: '20px', borderBottom: '1px solid rgba(0, 212, 255, 0.2)' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'center' }}>
-                        <Logo size="small" />
-                        <div style={{ textAlign: 'left' }}>
-                            <h2 style={{ margin: '0', color: '#00d4ff', fontSize: '16px', fontWeight: '700' }}>Your</h2>
-                            <h2 style={{ margin: '0', color: '#fff', fontSize: '16px', fontWeight: '700' }}>Kharcha</h2>
-                        </div>
-                    </div>
-                </div>
-                <div className="profile-section">
-                    <div className="profile-avatar-wrapper">
-                        <span className="profile-emoji">{user.avatar || '👤'}</span>
-                    </div>
-                    <h3 className="profile-name">{user.firstName} {user.lastName}</h3>
-                    <p style={{ fontSize: '12px', color: '#999', margin: '5px 0 0 0' }}>{user.email}</p>
-                    <button
-                        className="edit-profile-btn"
-                        onClick={() => navigate('/edit-profile')}
-                    >
-                        ✏️ Edit Profile
-                    </button>
-                </div>
-
-                <nav className="nav-menu">
-                    <div className={`nav-item ${activeNav === 'home' ? 'active' : ''}`} onClick={() => { setActiveNav('home'); navigate('/dashboard'); }}>
-                        <span className="nav-icon">🏠</span>
-                        <span className="nav-label">Home</span>
-                    </div>
-                    <div className={`nav-item ${activeNav === 'expenses' ? 'active' : ''}`} onClick={() => { setActiveNav('expenses'); navigate('/expenses'); }}>
-                        <span className="nav-icon">💳</span>
-                        <span className="nav-label">Expenses</span>
-                    </div>
-                    <div className={`nav-item ${activeNav === 'trips' ? 'active' : ''}`} onClick={() => setActiveNav('trips')}>
-                        <span className="nav-icon">✈️</span>
-                        <span className="nav-label">Trips</span>
-                    </div>
-                    <div className={`nav-item ${activeNav === 'settings' ? 'active' : ''}`} onClick={() => { setActiveNav('settings'); navigate('/settings'); }}>
-                        <span className="nav-icon">⚙️</span>
-                        <span className="nav-label">Settings</span>
-                    </div>
-                    <div className={`nav-item logout-item`} onClick={handleLogout}>
-                        <span className="nav-icon">🚪</span>
-                        <span className="nav-label">Logout</span>
-                    </div>
-                </nav>
-            </aside>
-
-            <main className="main-content">
-                <div className="trips-header">
-                    <div>
-                        <h1>✈️ Trips</h1>
-                        <p className="header-subtitle">Plan and manage your adventures</p>
-                    </div>
-                    <button
-                        className="btn-add-trip"
-                        onClick={() => setShowForm(!showForm)}
-                    >
-                        {showForm ? '✕ Cancel' : '+ Plan Trip'}
-                    </button>
-                </div>
-
-                {showForm && (
-                    <form className="add-trip-form" onSubmit={handleAddTrip}>
-                        <h3>Plan Your Next Adventure</h3>
-                        <div className="form-grid">
-                            <div className="form-group">
-                                <label>Destination *</label>
-                                <input
-                                    type="text"
-                                    placeholder="e.g., Paris, France"
-                                    value={formData.destination}
-                                    onChange={(e) => setFormData({ ...formData, destination: e.target.value })}
-                                    required
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Budget (₹) *</label>
-                                <input
-                                    type="number"
-                                    placeholder="0.00"
-                                    step="0.01"
-                                    value={formData.budget}
-                                    onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                                    required
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Start Date *</label>
-                                <input
-                                    type="date"
-                                    value={formData.startDate}
-                                    onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                                    required
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>End Date *</label>
-                                <input
-                                    type="date"
-                                    value={formData.endDate}
-                                    onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
-                                    required
-                                />
+                <aside className="sidebar">
+                    <div className="sidebar-header" style={{ marginBottom: '30px', paddingBottom: '20px', borderBottom: '1px solid rgba(0, 212, 255, 0.2)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'center' }}>
+                            <Logo size="small" />
+                            <div style={{ textAlign: 'left' }}>
+                                <h2 style={{ margin: '0', color: '#00d4ff', fontSize: '16px', fontWeight: '700' }}>Your</h2>
+                                <h2 style={{ margin: '0', color: '#fff', fontSize: '16px', fontWeight: '700' }}>Kharcha</h2>
                             </div>
                         </div>
-                        <div className="form-group full-width">
-                            <label>Description</label>
-                            <textarea
-                                placeholder="Trip details, things to do, notes..."
-                                value={formData.description}
-                                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                rows={3}
-                            />
+                    </div>
+                    <div className="profile-section">
+                        <div className="profile-avatar-wrapper">
+                            <span className="profile-emoji">{user.avatar || '👤'}</span>
                         </div>
-                        <button type="submit" className="btn-submit">Create Trip</button>
-                    </form>
-                )}
-
-                {trips.length === 0 ? (
-                    <div className="empty-state">
-                        <div className="empty-icon">✈️</div>
-                        <h2>No trips planned yet</h2>
-                        <p>Start planning your next adventure</p>
-                        <button className="btn-add-trip" onClick={() => setShowForm(true)}>
-                            Plan Your First Trip
+                        <h3 className="profile-name">{user.firstName} {user.lastName}</h3>
+                        <p style={{ fontSize: '12px', color: '#999', margin: '5px 0 0 0' }}>{user.email}</p>
+                        <button
+                            className="edit-profile-btn"
+                            onClick={() => navigate('/edit-profile')}
+                        >
+                            ✏️ Edit Profile
                         </button>
                     </div>
-                ) : (
-                    <>
-                        {/* Summary Stats */}
-                        <div className="stats-grid">
-                            <div className="stat-card">
-                                <div className="stat-icon">🗺️</div>
-                                <div className="stat-content">
-                                    <div className="stat-label">Total Trips</div>
-                                    <div className="stat-value">{allTripsCount}</div>
-                                </div>
-                            </div>
-                            <div className="stat-card">
-                                <div className="stat-icon">💰</div>
-                                <div className="stat-content">
-                                    <div className="stat-label">Total Budget</div>
-                                    <div className="stat-value">₹{totalBudget.toFixed(0)}</div>
-                                </div>
-                            </div>
-                            <div className="stat-card">
-                                <div className="stat-icon">📊</div>
-                                <div className="stat-content">
-                                    <div className="stat-label">Average Per Trip</div>
-                                    <div className="stat-value">₹{(totalBudget / allTripsCount).toFixed(0)}</div>
-                                </div>
-                            </div>
-                            <div className="stat-card">
-                                <div className="stat-icon">📅</div>
-                                <div className="stat-content">
-                                    <div className="stat-label">Upcoming</div>
-                                    <div className="stat-value">{trips.filter(t => new Date(t.endDate) > new Date()).length}</div>
-                                </div>
-                            </div>
-                        </div>
 
-                        {/* Controls */}
-                        <div className="controls-section">
-                            <div className="search-container">
-                                <span className="search-icon">🔍</span>
-                                <input
-                                    type="text"
-                                    placeholder="Search trips..."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="search-input"
+                    <nav className="nav-menu">
+                        <div className={`nav-item ${activeNav === 'home' ? 'active' : ''}`} onClick={() => { setActiveNav('home'); navigate('/dashboard'); }}>
+                            <span className="nav-icon">🏠</span>
+                            <span className="nav-label">Home</span>
+                        </div>
+                        <div className={`nav-item ${activeNav === 'expenses' ? 'active' : ''}`} onClick={() => { setActiveNav('expenses'); navigate('/expenses'); }}>
+                            <span className="nav-icon">💳</span>
+                            <span className="nav-label">Expenses</span>
+                        </div>
+                        <div className={`nav-item ${activeNav === 'trips' ? 'active' : ''}`} onClick={() => setActiveNav('trips')}>
+                            <span className="nav-icon">✈️</span>
+                            <span className="nav-label">Trips</span>
+                        </div>
+                        <div className={`nav-item ${activeNav === 'settings' ? 'active' : ''}`} onClick={() => { setActiveNav('settings'); navigate('/settings'); }}>
+                            <span className="nav-icon">⚙️</span>
+                            <span className="nav-label">Settings</span>
+                        </div>
+                        <div className={`nav-item logout-item`} onClick={handleLogout}>
+                            <span className="nav-icon">🚪</span>
+                            <span className="nav-label">Logout</span>
+                        </div>
+                    </nav>
+                </aside>
+
+                <main className="main-content">
+                    <div className="trips-header">
+                        <div>
+                            <h1>✈️ Trips</h1>
+                            <p className="header-subtitle">Plan and manage your adventures</p>
+                        </div>
+                        <button
+                            className="btn-add-trip"
+                            onClick={() => setShowForm(!showForm)}
+                        >
+                            {showForm ? '✕ Cancel' : '+ Plan Trip'}
+                        </button>
+                    </div>
+
+                    {showForm && (
+                        <form className="add-trip-form" onSubmit={handleAddTrip}>
+                            <h3>Plan Your Next Adventure</h3>
+                            <div className="form-grid">
+                                <div className="form-group">
+                                    <label>Destination *</label>
+                                    <input
+                                        type="text"
+                                        placeholder="e.g., Paris, France"
+                                        value={formData.destination}
+                                        onChange={(e) => setFormData({ ...formData, destination: e.target.value })}
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label>Budget (₹) *</label>
+                                    <input
+                                        type="number"
+                                        placeholder="0.00"
+                                        step="0.01"
+                                        value={formData.budget}
+                                        onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label>Start Date *</label>
+                                    <input
+                                        type="date"
+                                        value={formData.startDate}
+                                        onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label>End Date *</label>
+                                    <input
+                                        type="date"
+                                        value={formData.endDate}
+                                        onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-group full-width">
+                                <label>Description</label>
+                                <textarea
+                                    placeholder="Trip details, things to do, notes..."
+                                    value={formData.description}
+                                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                    rows={3}
                                 />
                             </div>
-                            <select value={sortBy} onChange={(e) => setSortBy(e.target.value as any)} className="sort-select">
-                                <option value="date-asc">📅 Earliest First</option>
-                                <option value="date-desc">📅 Latest First</option>
-                                <option value="budget-asc">💰 Low Budget First</option>
-                                <option value="budget-desc">💰 High Budget First</option>
-                            </select>
-                            {filteredTrips.length > 0 && (
-                                <button
-                                    className="btn-select-all"
-                                    onClick={handleSelectAll}
-                                >
-                                    {selectedTrips.size === filteredTrips.length ? '✓ All Selected' : 'Select All'}
-                                </button>
-                            )}
-                            {selectedTrips.size > 0 && (
-                                <button className="btn-delete-selected" onClick={handleDeleteSelected}>
-                                    🗑️ Delete ({selectedTrips.size})
-                                </button>
-                            )}
-                        </div>
+                            <button type="submit" className="btn-submit">Create Trip</button>
+                        </form>
+                    )}
 
-                        {/* Trips Grid */}
-                        <div className="trips-grid">
-                            {filteredTrips.map(trip => (
-                                <div key={trip.id} className={`trip-card ${selectedTrips.has(trip.id) ? 'selected' : ''}`}>
-                                    {editingId === trip.id ? (
-                                        <div className="edit-mode">
-                                            <h4>Edit Trip</h4>
-                                            <div className="edit-form">
-                                                <div className="edit-form-row">
-                                                    <div className="form-group">
-                                                        <label>Destination</label>
-                                                        <input
-                                                            type="text"
-                                                            value={editData?.destination || ''}
-                                                            onChange={(e) => editData && setEditData({ ...editData, destination: e.target.value })}
-                                                        />
+                    {trips.length === 0 ? (
+                        <div className="empty-state">
+                            <div className="empty-icon">✈️</div>
+                            <h2>No trips planned yet</h2>
+                            <p>Start planning your next adventure</p>
+                            <button className="btn-add-trip" onClick={() => setShowForm(true)}>
+                                Plan Your First Trip
+                            </button>
+                        </div>
+                    ) : (
+                        <>
+                            {/* Summary Stats */}
+                            <div className="stats-grid">
+                                <div className="stat-card">
+                                    <div className="stat-icon">🗺️</div>
+                                    <div className="stat-content">
+                                        <div className="stat-label">Total Trips</div>
+                                        <div className="stat-value">{allTripsCount}</div>
+                                    </div>
+                                </div>
+                                <div className="stat-card">
+                                    <div className="stat-icon">💰</div>
+                                    <div className="stat-content">
+                                        <div className="stat-label">Total Budget</div>
+                                        <div className="stat-value">₹{totalBudget.toFixed(0)}</div>
+                                    </div>
+                                </div>
+                                <div className="stat-card">
+                                    <div className="stat-icon">📊</div>
+                                    <div className="stat-content">
+                                        <div className="stat-label">Average Per Trip</div>
+                                        <div className="stat-value">₹{(totalBudget / allTripsCount).toFixed(0)}</div>
+                                    </div>
+                                </div>
+                                <div className="stat-card">
+                                    <div className="stat-icon">📅</div>
+                                    <div className="stat-content">
+                                        <div className="stat-label">Upcoming</div>
+                                        <div className="stat-value">{trips.filter(t => new Date(t.endDate) > new Date()).length}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Controls */}
+                            <div className="controls-section">
+                                <div className="search-container">
+                                    <span className="search-icon">🔍</span>
+                                    <input
+                                        type="text"
+                                        placeholder="Search trips..."
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                        className="search-input"
+                                    />
+                                </div>
+                                <select value={sortBy} onChange={(e) => setSortBy(e.target.value as any)} className="sort-select">
+                                    <option value="date-asc">📅 Earliest First</option>
+                                    <option value="date-desc">📅 Latest First</option>
+                                    <option value="budget-asc">💰 Low Budget First</option>
+                                    <option value="budget-desc">💰 High Budget First</option>
+                                </select>
+                                {filteredTrips.length > 0 && (
+                                    <button
+                                        className="btn-select-all"
+                                        onClick={handleSelectAll}
+                                    >
+                                        {selectedTrips.size === filteredTrips.length ? '✓ All Selected' : 'Select All'}
+                                    </button>
+                                )}
+                                {selectedTrips.size > 0 && (
+                                    <button className="btn-delete-selected" onClick={handleDeleteSelected}>
+                                        🗑️ Delete ({selectedTrips.size})
+                                    </button>
+                                )}
+                            </div>
+
+                            {/* Trips Grid */}
+                            <div className="trips-grid">
+                                {filteredTrips.map(trip => (
+                                    <div key={trip.id} className={`trip-card ${selectedTrips.has(trip.id) ? 'selected' : ''}`}>
+                                        {editingId === trip.id ? (
+                                            <div className="edit-mode">
+                                                <h4>Edit Trip</h4>
+                                                <div className="edit-form">
+                                                    <div className="edit-form-row">
+                                                        <div className="form-group">
+                                                            <label>Destination</label>
+                                                            <input
+                                                                type="text"
+                                                                value={editData?.destination || ''}
+                                                                onChange={(e) => editData && setEditData({ ...editData, destination: e.target.value })}
+                                                            />
+                                                        </div>
+                                                        <div className="form-group">
+                                                            <label>Budget</label>
+                                                            <input
+                                                                type="number"
+                                                                value={editData?.budget || ''}
+                                                                onChange={(e) => editData && setEditData({ ...editData, budget: parseFloat(e.target.value) })}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div className="edit-form-row">
+                                                        <div className="form-group">
+                                                            <label>Start Date</label>
+                                                            <input
+                                                                type="date"
+                                                                value={editData?.startDate || ''}
+                                                                onChange={(e) => editData && setEditData({ ...editData, startDate: e.target.value })}
+                                                            />
+                                                        </div>
+                                                        <div className="form-group">
+                                                            <label>End Date</label>
+                                                            <input
+                                                                type="date"
+                                                                value={editData?.endDate || ''}
+                                                                onChange={(e) => editData && setEditData({ ...editData, endDate: e.target.value })}
+                                                            />
+                                                        </div>
                                                     </div>
                                                     <div className="form-group">
-                                                        <label>Budget</label>
-                                                        <input
-                                                            type="number"
-                                                            value={editData?.budget || ''}
-                                                            onChange={(e) => editData && setEditData({ ...editData, budget: parseFloat(e.target.value) })}
+                                                        <label>Description</label>
+                                                        <textarea
+                                                            value={editData?.description || ''}
+                                                            onChange={(e) => editData && setEditData({ ...editData, description: e.target.value })}
+                                                            rows={2}
                                                         />
+                                                    </div>
+                                                    <div className="edit-actions">
+                                                        <button type="button" onClick={handleSaveEdit} className="btn-save">
+                                                            💾 Save
+                                                        </button>
+                                                        <button type="button" onClick={handleCancelEdit} className="btn-cancel">
+                                                            ✕ Cancel
+                                                        </button>
                                                     </div>
                                                 </div>
-                                                <div className="edit-form-row">
-                                                    <div className="form-group">
-                                                        <label>Start Date</label>
-                                                        <input
-                                                            type="date"
-                                                            value={editData?.startDate || ''}
-                                                            onChange={(e) => editData && setEditData({ ...editData, startDate: e.target.value })}
-                                                        />
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <div className="trip-header">
+                                                    <div className="trip-title-section">
+                                                        <h3>{trip.destination}</h3>
+                                                        <p className="trip-dates">
+                                                            {new Date(trip.startDate).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })} - {new Date(trip.endDate).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' })}
+                                                        </p>
                                                     </div>
-                                                    <div className="form-group">
-                                                        <label>End Date</label>
-                                                        <input
-                                                            type="date"
-                                                            value={editData?.endDate || ''}
-                                                            onChange={(e) => editData && setEditData({ ...editData, endDate: e.target.value })}
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label>Description</label>
-                                                    <textarea
-                                                        value={editData?.description || ''}
-                                                        onChange={(e) => editData && setEditData({ ...editData, description: e.target.value })}
-                                                        rows={2}
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={selectedTrips.has(trip.id)}
+                                                        onChange={() => handleToggleTrip(trip.id)}
+                                                        className="trip-checkbox"
                                                     />
                                                 </div>
-                                                <div className="edit-actions">
-                                                    <button type="button" onClick={handleSaveEdit} className="btn-save">
-                                                        💾 Save
+                                                <div className="trip-body">
+                                                    <div className="trip-detail">
+                                                        <span className="detail-icon">💰</span>
+                                                        <div>
+                                                            <div className="detail-label">Budget</div>
+                                                            <div className="detail-value">₹{trip.budget.toFixed(2)}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="trip-detail">
+                                                        <span className="detail-icon">📅</span>
+                                                        <div>
+                                                            <div className="detail-label">Duration</div>
+                                                            <div className="detail-value">{calculateDays(trip.startDate, trip.endDate)} days</div>
+                                                        </div>
+                                                    </div>
+                                                    {trip.description && (
+                                                        <div className="trip-description">
+                                                            <p>{trip.description}</p>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <div className="trip-footer">
+                                                    <button
+                                                        className="btn-icon btn-edit-trip"
+                                                        onClick={() => handleStartEdit(trip)}
+                                                        title="Edit trip"
+                                                    >
+                                                        ✏️
                                                     </button>
-                                                    <button type="button" onClick={handleCancelEdit} className="btn-cancel">
-                                                        ✕ Cancel
+                                                    <button
+                                                        className="btn-icon btn-delete-trip"
+                                                        onClick={() => handleDeleteTrip(trip.id)}
+                                                        title="Delete trip"
+                                                    >
+                                                        🗑️
                                                     </button>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <>
-                                            <div className="trip-header">
-                                                <div className="trip-title-section">
-                                                    <h3>{trip.destination}</h3>
-                                                    <p className="trip-dates">
-                                                        {new Date(trip.startDate).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })} - {new Date(trip.endDate).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' })}
-                                                    </p>
-                                                </div>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={selectedTrips.has(trip.id)}
-                                                    onChange={() => handleToggleTrip(trip.id)}
-                                                    className="trip-checkbox"
-                                                />
-                                            </div>
-                                            <div className="trip-body">
-                                                <div className="trip-detail">
-                                                    <span className="detail-icon">💰</span>
-                                                    <div>
-                                                        <div className="detail-label">Budget</div>
-                                                        <div className="detail-value">₹{trip.budget.toFixed(2)}</div>
-                                                    </div>
-                                                </div>
-                                                <div className="trip-detail">
-                                                    <span className="detail-icon">📅</span>
-                                                    <div>
-                                                        <div className="detail-label">Duration</div>
-                                                        <div className="detail-value">{calculateDays(trip.startDate, trip.endDate)} days</div>
-                                                    </div>
-                                                </div>
-                                                {trip.description && (
-                                                    <div className="trip-description">
-                                                        <p>{trip.description}</p>
-                                                    </div>
-                                                )}
-                                            </div>
-                                            <div className="trip-footer">
-                                                <button
-                                                    className="btn-icon btn-edit-trip"
-                                                    onClick={() => handleStartEdit(trip)}
-                                                    title="Edit trip"
-                                                >
-                                                    ✏️
-                                                </button>
-                                                <button
-                                                    className="btn-icon btn-delete-trip"
-                                                    onClick={() => handleDeleteTrip(trip.id)}
-                                                    title="Delete trip"
-                                                >
-                                                    🗑️
-                                                </button>
-                                            </div>
-                                        </>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-
-                        {filteredTrips.length === 0 && (
-                            <div className="no-results">
-                                <p>No trips found matching your search</p>
+                                            </>
+                                        )}
+                                    </div>
+                                ))}
                             </div>
-                        )}
-                    </>
-                )}
-            </main>
+
+                            {filteredTrips.length === 0 && (
+                                <div className="no-results">
+                                    <p>No trips found matching your search</p>
+                                </div>
+                            )}
+                        </>
+                    )}
+                </main>
             </div>
             <Footer />
         </div>

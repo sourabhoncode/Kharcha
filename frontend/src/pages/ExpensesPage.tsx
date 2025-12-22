@@ -154,359 +154,359 @@ const ExpensesPage: React.FC = () => {
     return (
         <div className="App">
             <div className="app-wrapper">
-            {/* Sidebar */}
-            <aside className="sidebar">
-                <div className="sidebar-header" style={{ marginBottom: '30px', paddingBottom: '20px', borderBottom: '1px solid rgba(0, 212, 255, 0.2)' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'center' }}>
-                        <Logo size="small" />
-                        <div style={{ textAlign: 'left' }}>
-                            <h2 style={{ margin: '0', color: '#00d4ff', fontSize: '16px', fontWeight: '700' }}>Your</h2>
-                            <h2 style={{ margin: '0', color: '#fff', fontSize: '16px', fontWeight: '700' }}>Kharcha</h2>
+                {/* Sidebar */}
+                <aside className="sidebar">
+                    <div className="sidebar-header" style={{ marginBottom: '30px', paddingBottom: '20px', borderBottom: '1px solid rgba(0, 212, 255, 0.2)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'center' }}>
+                            <Logo size="small" />
+                            <div style={{ textAlign: 'left' }}>
+                                <h2 style={{ margin: '0', color: '#00d4ff', fontSize: '16px', fontWeight: '700' }}>Your</h2>
+                                <h2 style={{ margin: '0', color: '#fff', fontSize: '16px', fontWeight: '700' }}>Kharcha</h2>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="profile-section">
-                    <div className="profile-avatar-wrapper">
-                        <span className="profile-emoji">{user.avatar || '👤'}</span>
-                    </div>
-                    <h3 className="profile-name">{user.firstName} {user.lastName}</h3>
-                    <p style={{ fontSize: '12px', color: '#999', margin: '5px 0 0 0' }}>{user.email}</p>
-                    <button
-                        className="edit-profile-btn"
-                        onClick={() => navigate('/edit-profile')}
-                    >
-                        ✏️ Edit Profile
-                    </button>
-                </div>
-
-                <nav className="nav-menu">
-                    <div className={`nav-item ${activeNav === 'home' ? 'active' : ''}`} onClick={() => { setActiveNav('home'); navigate('/dashboard'); }}>
-                        <span className="nav-icon">🏠</span>
-                        <span className="nav-label">Home</span>
-                    </div>
-                    <div className={`nav-item ${activeNav === 'expenses' ? 'active' : ''}`} onClick={() => setActiveNav('expenses')}>
-                        <span className="nav-icon">💳</span>
-                        <span className="nav-label">Expenses</span>
-                    </div>
-                    <div className={`nav-item ${activeNav === 'trips' ? 'active' : ''}`} onClick={() => { setActiveNav('trips'); navigate('/trips'); }}>
-                        <span className="nav-icon">✈️</span>
-                        <span className="nav-label">Trips</span>
-                    </div>
-                    <div className={`nav-item ${activeNav === 'settings' ? 'active' : ''}`} onClick={() => { setActiveNav('settings'); navigate('/settings'); }}>
-                        <span className="nav-icon">⚙️</span>
-                        <span className="nav-label">Settings</span>
-                    </div>
-                    <div className={`nav-item logout-item`} onClick={handleLogout}>
-                        <span className="nav-icon">🚪</span>
-                        <span className="nav-label">Logout</span>
-                    </div>
-                </nav>
-            </aside>
-
-            {/* Main Content */}
-            <main className="main-content">
-                {/* Header */}
-                <div className="expenses-header">
-                    <h1>Expenses</h1>
-                    <button
-                        className="btn-add-expense"
-                        onClick={() => navigate('/add-expense')}
-                    >
-                        + Add Expense
-                    </button>
-                </div>
-
-                {/* Summary Cards */}
-                <div className="summary-cards">
-                    <div className="summary-card">
-                        <div className="summary-label">Total Expenses</div>
-                        <div className="summary-value">₹{getTotalSpending().toFixed(2)}</div>
-                    </div>
-                    <div className="summary-card">
-                        <div className="summary-label">Filtered Total</div>
-                        <div className="summary-value">₹{totalFiltered.toFixed(2)}</div>
-                    </div>
-                    <div className="summary-card">
-                        <div className="summary-label">Number of Expenses</div>
-                        <div className="summary-value">{filteredExpenses.length}</div>
-                    </div>
-                </div>
-
-                {/* Filters */}
-                <div className="filters-section">
-                    <div className="search-box">
-                        <span className="search-icon">🔍</span>
-                        <input
-                            type="text"
-                            placeholder="Search expenses..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="search-input"
-                        />
-                    </div>
-
-                    <div className="filter-group">
-                        <label>Category:</label>
-                        <select
-                            value={selectedCategory}
-                            onChange={(e) => setSelectedCategory(e.target.value)}
-                            className="filter-select"
-                        >
-                            {categories.map(cat => (
-                                <option key={cat} value={cat}>
-                                    {cat === 'all' ? 'All Categories' : cat}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-
-                    <div className="filter-group">
-                        <label>Month:</label>
-                        <select
-                            value={selectedMonth}
-                            onChange={(e) => setSelectedMonth(e.target.value)}
-                            className="filter-select"
-                        >
-                            <option value="">All Months</option>
-                            {Array.from({ length: 12 }, (_, i) => {
-                                const month = String(i + 1).padStart(2, '0');
-                                const monthName = new Date(2024, i).toLocaleString('default', { month: 'long' });
-                                return <option key={month} value={month}>{monthName}</option>;
-                            })}
-                        </select>
-                    </div>
-
-                    <div className="filter-group">
-                        <label>Year:</label>
-                        <select
-                            value={selectedYear}
-                            onChange={(e) => setSelectedYear(e.target.value)}
-                            className="filter-select"
-                        >
-                            {Array.from({ length: 5 }, (_, i) => {
-                                const year = new Date().getFullYear() - i;
-                                return <option key={year} value={year.toString()}>{year}</option>;
-                            })}
-                        </select>
-                    </div>
-
-                    <div className="filter-group">
-                        <label>Sort By:</label>
-                        <select
-                            value={sortBy}
-                            onChange={(e) => setSortBy(e.target.value as any)}
-                            className="filter-select"
-                        >
-                            <option value="date-desc">Newest First</option>
-                            <option value="date-asc">Oldest First</option>
-                            <option value="amount-desc">Highest Amount</option>
-                            <option value="amount-asc">Lowest Amount</option>
-                        </select>
-                    </div>
-                </div>
-
-                {/* Date Range Filter */}
-                <div className="date-range-filter">
-                    <div className="filter-group">
-                        <label>From:</label>
-                        <input
-                            type="date"
-                            value={dateRangeStart}
-                            onChange={(e) => setDateRangeStart(e.target.value)}
-                            className="filter-input-date"
-                        />
-                    </div>
-                    <div className="filter-group">
-                        <label>To:</label>
-                        <input
-                            type="date"
-                            value={dateRangeEnd}
-                            onChange={(e) => setDateRangeEnd(e.target.value)}
-                            className="filter-input-date"
-                        />
-                    </div>
-                    {(dateRangeStart || dateRangeEnd) && (
+                    <div className="profile-section">
+                        <div className="profile-avatar-wrapper">
+                            <span className="profile-emoji">{user.avatar || '👤'}</span>
+                        </div>
+                        <h3 className="profile-name">{user.firstName} {user.lastName}</h3>
+                        <p style={{ fontSize: '12px', color: '#999', margin: '5px 0 0 0' }}>{user.email}</p>
                         <button
-                            className="btn-clear-date-range"
-                            onClick={() => {
-                                setDateRangeStart('');
-                                setDateRangeEnd('');
-                            }}
+                            className="edit-profile-btn"
+                            onClick={() => navigate('/edit-profile')}
                         >
-                            Clear Date Range
+                            ✏️ Edit Profile
                         </button>
-                    )}
-                </div>
+                    </div>
 
-                {/* Category Summary */}
-                {Object.keys(categoryTotals).length > 0 && (
-                    <div className="category-summary">
-                        <h3>Category Breakdown</h3>
-                        <div className="category-list">
-                            {Object.entries(categoryTotals).map(([category, total]) => (
-                                <div key={category} className="category-item">
-                                    <span className="category-name">{category}</span>
-                                    <span className="category-amount">₹{total.toFixed(2)}</span>
-                                </div>
-                            ))}
+                    <nav className="nav-menu">
+                        <div className={`nav-item ${activeNav === 'home' ? 'active' : ''}`} onClick={() => { setActiveNav('home'); navigate('/dashboard'); }}>
+                            <span className="nav-icon">🏠</span>
+                            <span className="nav-label">Home</span>
+                        </div>
+                        <div className={`nav-item ${activeNav === 'expenses' ? 'active' : ''}`} onClick={() => setActiveNav('expenses')}>
+                            <span className="nav-icon">💳</span>
+                            <span className="nav-label">Expenses</span>
+                        </div>
+                        <div className={`nav-item ${activeNav === 'trips' ? 'active' : ''}`} onClick={() => { setActiveNav('trips'); navigate('/trips'); }}>
+                            <span className="nav-icon">✈️</span>
+                            <span className="nav-label">Trips</span>
+                        </div>
+                        <div className={`nav-item ${activeNav === 'settings' ? 'active' : ''}`} onClick={() => { setActiveNav('settings'); navigate('/settings'); }}>
+                            <span className="nav-icon">⚙️</span>
+                            <span className="nav-label">Settings</span>
+                        </div>
+                        <div className={`nav-item logout-item`} onClick={handleLogout}>
+                            <span className="nav-icon">🚪</span>
+                            <span className="nav-label">Logout</span>
+                        </div>
+                    </nav>
+                </aside>
+
+                {/* Main Content */}
+                <main className="main-content">
+                    {/* Header */}
+                    <div className="expenses-header">
+                        <h1>Expenses</h1>
+                        <button
+                            className="btn-add-expense"
+                            onClick={() => navigate('/add-expense')}
+                        >
+                            + Add Expense
+                        </button>
+                    </div>
+
+                    {/* Summary Cards */}
+                    <div className="summary-cards">
+                        <div className="summary-card">
+                            <div className="summary-label">Total Expenses</div>
+                            <div className="summary-value">₹{getTotalSpending().toFixed(2)}</div>
+                        </div>
+                        <div className="summary-card">
+                            <div className="summary-label">Filtered Total</div>
+                            <div className="summary-value">₹{totalFiltered.toFixed(2)}</div>
+                        </div>
+                        <div className="summary-card">
+                            <div className="summary-label">Number of Expenses</div>
+                            <div className="summary-value">{filteredExpenses.length}</div>
                         </div>
                     </div>
-                )}
 
-                {/* Expenses Table */}
-                <div className="expenses-table-section">
-                    {filteredExpenses.length === 0 ? (
-                        <div className="no-expenses">
-                            <p>📭 No expenses found</p>
-                            <button
-                                className="btn-add-expense"
-                                onClick={() => navigate('/add-expense')}
-                            >
-                                Add Your First Expense
-                            </button>
+                    {/* Filters */}
+                    <div className="filters-section">
+                        <div className="search-box">
+                            <span className="search-icon">🔍</span>
+                            <input
+                                type="text"
+                                placeholder="Search expenses..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="search-input"
+                            />
                         </div>
-                    ) : (
-                        <>
-                            {/* Bulk Actions */}
-                            {selectedExpenses.size > 0 && (
-                                <div className="bulk-actions">
-                                    <span>{selectedExpenses.size} selected</span>
-                                    <button
-                                        className="btn-delete-bulk"
-                                        onClick={handleDeleteSelected}
-                                    >
-                                        🗑️ Delete Selected ({selectedExpenses.size})
-                                    </button>
-                                </div>
-                            )}
 
-                            <table className="expenses-table">
-                                <thead>
-                                    <tr>
-                                        <th style={{ width: '40px' }}>
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedExpenses.size === filteredExpenses.length && filteredExpenses.length > 0}
-                                                onChange={handleSelectAll}
-                                                title="Select all"
-                                            />
-                                        </th>
-                                        <th>Date</th>
-                                        <th>Description</th>
-                                        <th>Category</th>
-                                        <th>Amount</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {filteredExpenses.map(expense => (
-                                        <tr key={expense.id} className={selectedExpenses.has(expense.id) ? 'selected-row' : ''}>
-                                            <td style={{ width: '40px' }}>
+                        <div className="filter-group">
+                            <label>Category:</label>
+                            <select
+                                value={selectedCategory}
+                                onChange={(e) => setSelectedCategory(e.target.value)}
+                                className="filter-select"
+                            >
+                                {categories.map(cat => (
+                                    <option key={cat} value={cat}>
+                                        {cat === 'all' ? 'All Categories' : cat}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div className="filter-group">
+                            <label>Month:</label>
+                            <select
+                                value={selectedMonth}
+                                onChange={(e) => setSelectedMonth(e.target.value)}
+                                className="filter-select"
+                            >
+                                <option value="">All Months</option>
+                                {Array.from({ length: 12 }, (_, i) => {
+                                    const month = String(i + 1).padStart(2, '0');
+                                    const monthName = new Date(2024, i).toLocaleString('default', { month: 'long' });
+                                    return <option key={month} value={month}>{monthName}</option>;
+                                })}
+                            </select>
+                        </div>
+
+                        <div className="filter-group">
+                            <label>Year:</label>
+                            <select
+                                value={selectedYear}
+                                onChange={(e) => setSelectedYear(e.target.value)}
+                                className="filter-select"
+                            >
+                                {Array.from({ length: 5 }, (_, i) => {
+                                    const year = new Date().getFullYear() - i;
+                                    return <option key={year} value={year.toString()}>{year}</option>;
+                                })}
+                            </select>
+                        </div>
+
+                        <div className="filter-group">
+                            <label>Sort By:</label>
+                            <select
+                                value={sortBy}
+                                onChange={(e) => setSortBy(e.target.value as any)}
+                                className="filter-select"
+                            >
+                                <option value="date-desc">Newest First</option>
+                                <option value="date-asc">Oldest First</option>
+                                <option value="amount-desc">Highest Amount</option>
+                                <option value="amount-asc">Lowest Amount</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    {/* Date Range Filter */}
+                    <div className="date-range-filter">
+                        <div className="filter-group">
+                            <label>From:</label>
+                            <input
+                                type="date"
+                                value={dateRangeStart}
+                                onChange={(e) => setDateRangeStart(e.target.value)}
+                                className="filter-input-date"
+                            />
+                        </div>
+                        <div className="filter-group">
+                            <label>To:</label>
+                            <input
+                                type="date"
+                                value={dateRangeEnd}
+                                onChange={(e) => setDateRangeEnd(e.target.value)}
+                                className="filter-input-date"
+                            />
+                        </div>
+                        {(dateRangeStart || dateRangeEnd) && (
+                            <button
+                                className="btn-clear-date-range"
+                                onClick={() => {
+                                    setDateRangeStart('');
+                                    setDateRangeEnd('');
+                                }}
+                            >
+                                Clear Date Range
+                            </button>
+                        )}
+                    </div>
+
+                    {/* Category Summary */}
+                    {Object.keys(categoryTotals).length > 0 && (
+                        <div className="category-summary">
+                            <h3>Category Breakdown</h3>
+                            <div className="category-list">
+                                {Object.entries(categoryTotals).map(([category, total]) => (
+                                    <div key={category} className="category-item">
+                                        <span className="category-name">{category}</span>
+                                        <span className="category-amount">₹{total.toFixed(2)}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Expenses Table */}
+                    <div className="expenses-table-section">
+                        {filteredExpenses.length === 0 ? (
+                            <div className="no-expenses">
+                                <p>📭 No expenses found</p>
+                                <button
+                                    className="btn-add-expense"
+                                    onClick={() => navigate('/add-expense')}
+                                >
+                                    Add Your First Expense
+                                </button>
+                            </div>
+                        ) : (
+                            <>
+                                {/* Bulk Actions */}
+                                {selectedExpenses.size > 0 && (
+                                    <div className="bulk-actions">
+                                        <span>{selectedExpenses.size} selected</span>
+                                        <button
+                                            className="btn-delete-bulk"
+                                            onClick={handleDeleteSelected}
+                                        >
+                                            🗑️ Delete Selected ({selectedExpenses.size})
+                                        </button>
+                                    </div>
+                                )}
+
+                                <table className="expenses-table">
+                                    <thead>
+                                        <tr>
+                                            <th style={{ width: '40px' }}>
                                                 <input
                                                     type="checkbox"
-                                                    checked={selectedExpenses.has(expense.id)}
-                                                    onChange={() => handleToggleExpense(expense.id)}
+                                                    checked={selectedExpenses.size === filteredExpenses.length && filteredExpenses.length > 0}
+                                                    onChange={handleSelectAll}
+                                                    title="Select all"
                                                 />
-                                            </td>
-                                            <td className="col-date">{expense.date}</td>
-                                            <td className="col-description">{expense.description}</td>
-                                            <td className="col-category">
-                                                <span className={`badge badge-${expense.categoryBadge}`}>
-                                                    {expense.category}
-                                                </span>
-                                            </td>
-                                            <td className="col-amount">₹{expense.amount.toFixed(2)}</td>
-                                            <td className="col-action">
-                                                <button
-                                                    className="btn-edit"
-                                                    onClick={() => handleStartEdit(expense)}
-                                                    title="Edit expense"
-                                                >
-                                                    ✏️
-                                                </button>
-                                                <button
-                                                    className="btn-delete"
-                                                    onClick={() => handleDeleteExpense(expense.id)}
-                                                    title="Delete expense"
-                                                >
-                                                    🗑️
-                                                </button>
-                                            </td>
+                                            </th>
+                                            <th>Date</th>
+                                            <th>Description</th>
+                                            <th>Category</th>
+                                            <th>Amount</th>
+                                            <th>Actions</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {filteredExpenses.map(expense => (
+                                            <tr key={expense.id} className={selectedExpenses.has(expense.id) ? 'selected-row' : ''}>
+                                                <td style={{ width: '40px' }}>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={selectedExpenses.has(expense.id)}
+                                                        onChange={() => handleToggleExpense(expense.id)}
+                                                    />
+                                                </td>
+                                                <td className="col-date">{expense.date}</td>
+                                                <td className="col-description">{expense.description}</td>
+                                                <td className="col-category">
+                                                    <span className={`badge badge-${expense.categoryBadge}`}>
+                                                        {expense.category}
+                                                    </span>
+                                                </td>
+                                                <td className="col-amount">₹{expense.amount.toFixed(2)}</td>
+                                                <td className="col-action">
+                                                    <button
+                                                        className="btn-edit"
+                                                        onClick={() => handleStartEdit(expense)}
+                                                        title="Edit expense"
+                                                    >
+                                                        ✏️
+                                                    </button>
+                                                    <button
+                                                        className="btn-delete"
+                                                        onClick={() => handleDeleteExpense(expense.id)}
+                                                        title="Delete expense"
+                                                    >
+                                                        🗑️
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
 
-                            {/* Edit Modal */}
-                            {editingId && editData && (
-                                <div className="modal-overlay" onClick={handleCancelEdit}>
-                                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                                        <h2>Edit Expense</h2>
-                                        <div className="form-group">
-                                            <label>Description</label>
-                                            <input
-                                                type="text"
-                                                value={editData.description}
-                                                onChange={(e) => setEditData({ ...editData, description: e.target.value })}
-                                                className="modal-input"
-                                            />
-                                        </div>
-                                        <div className="form-row">
+                                {/* Edit Modal */}
+                                {editingId && editData && (
+                                    <div className="modal-overlay" onClick={handleCancelEdit}>
+                                        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                                            <h2>Edit Expense</h2>
                                             <div className="form-group">
-                                                <label>Category</label>
-                                                <select
-                                                    value={editData.category}
-                                                    onChange={(e) => setEditData({ ...editData, category: e.target.value })}
-                                                    className="modal-input"
-                                                >
-                                                    <option value="Food">Food</option>
-                                                    <option value="Utilities">Utilities</option>
-                                                    <option value="Transport">Transport</option>
-                                                    <option value="Entertainment">Entertainment</option>
-                                                    <option value="Other">Other</option>
-                                                </select>
-                                            </div>
-                                            <div className="form-group">
-                                                <label>Amount (₹)</label>
+                                                <label>Description</label>
                                                 <input
-                                                    type="number"
-                                                    value={editData.amount}
-                                                    onChange={(e) => setEditData({ ...editData, amount: parseFloat(e.target.value) })}
+                                                    type="text"
+                                                    value={editData.description}
+                                                    onChange={(e) => setEditData({ ...editData, description: e.target.value })}
                                                     className="modal-input"
-                                                    step="0.01"
                                                 />
                                             </div>
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Date</label>
-                                            <input
-                                                type="date"
-                                                value={editData.date}
-                                                onChange={(e) => setEditData({ ...editData, date: e.target.value })}
-                                                className="modal-input"
-                                            />
-                                        </div>
-                                        <div className="modal-actions">
-                                            <button
-                                                className="btn-cancel"
-                                                onClick={handleCancelEdit}
-                                            >
-                                                Cancel
-                                            </button>
-                                            <button
-                                                className="btn-save"
-                                                onClick={handleSaveEdit}
-                                            >
-                                                Save Changes
-                                            </button>
+                                            <div className="form-row">
+                                                <div className="form-group">
+                                                    <label>Category</label>
+                                                    <select
+                                                        value={editData.category}
+                                                        onChange={(e) => setEditData({ ...editData, category: e.target.value })}
+                                                        className="modal-input"
+                                                    >
+                                                        <option value="Food">Food</option>
+                                                        <option value="Utilities">Utilities</option>
+                                                        <option value="Transport">Transport</option>
+                                                        <option value="Entertainment">Entertainment</option>
+                                                        <option value="Other">Other</option>
+                                                    </select>
+                                                </div>
+                                                <div className="form-group">
+                                                    <label>Amount (₹)</label>
+                                                    <input
+                                                        type="number"
+                                                        value={editData.amount}
+                                                        onChange={(e) => setEditData({ ...editData, amount: parseFloat(e.target.value) })}
+                                                        className="modal-input"
+                                                        step="0.01"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="form-group">
+                                                <label>Date</label>
+                                                <input
+                                                    type="date"
+                                                    value={editData.date}
+                                                    onChange={(e) => setEditData({ ...editData, date: e.target.value })}
+                                                    className="modal-input"
+                                                />
+                                            </div>
+                                            <div className="modal-actions">
+                                                <button
+                                                    className="btn-cancel"
+                                                    onClick={handleCancelEdit}
+                                                >
+                                                    Cancel
+                                                </button>
+                                                <button
+                                                    className="btn-save"
+                                                    onClick={handleSaveEdit}
+                                                >
+                                                    Save Changes
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            )}
-                        </>
-                    )}
-                </div>
-            </main>
+                                )}
+                            </>
+                        )}
+                    </div>
+                </main>
             </div>
             <Footer />
         </div>

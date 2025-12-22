@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../context/UserContext';
 import { useExpenses } from '../context/ExpensesContext';
+import { useBudget } from '../context/BudgetContext';
 import Logo from '../components/Logo';
 import Footer from '../components/Footer';
 import '../App.css';
@@ -11,6 +12,10 @@ const Dashboard: React.FC = () => {
     const navigate = useNavigate();
     const { user, logout } = useUser();
     const { expenses, getTotalSpending, getMonthlyAverage, getBiggestCategory } = useExpenses();
+    const { getBudgetForMonth, setBudgetForMonth } = useBudget();
+
+    const [budgetAmount, setBudgetAmount] = useState('');
+    const [showBudgetForm, setShowBudgetForm] = useState(false);
 
     const handleLogout = () => {
         logout();
@@ -83,6 +88,27 @@ const Dashboard: React.FC = () => {
     const monthlyTrend = monthLabels.map(month => monthlyTotals[month] || 0);
     const maxMonthlyValue = Math.max(...monthlyTrend, 1);
 
+    // Budget calculations
+    const now = new Date();
+    const currentMonthBudget = getBudgetForMonth(now.getFullYear(), now.getMonth() + 1);
+    const currentMonthSpent = expenses
+        .filter(exp => {
+            const expDate = new Date(exp.date);
+            return expDate.getMonth() === now.getMonth() && expDate.getFullYear() === now.getFullYear();
+        })
+        .reduce((sum, exp) => sum + exp.amount, 0);
+
+    const remaining = currentMonthBudget ? currentMonthBudget - currentMonthSpent : null;
+    const budgetPercentage = currentMonthBudget ? (currentMonthSpent / currentMonthBudget) * 100 : 0;
+
+    const handleSetBudget = () => {
+        if (budgetAmount && parseFloat(budgetAmount) > 0) {
+            setBudgetForMonth(now.getFullYear(), now.getMonth() + 1, parseFloat(budgetAmount));
+            setBudgetAmount('');
+            setShowBudgetForm(false);
+        }
+    };
+
     return (
         <div className="App">
             <div className="app-wrapper">
@@ -114,154 +140,234 @@ const Dashboard: React.FC = () => {
                     <nav className="nav-menu">
                         <div className={`nav-item ${activeNav === 'home' ? 'active' : ''}`} onClick={() => setActiveNav('home')}>
                             <span className="nav-icon">🏠</span>
-                        <span className="nav-label">Home</span>
-                    </div>
-                    <div className={`nav-item ${activeNav === 'expenses' ? 'active' : ''}`} onClick={() => { setActiveNav('expenses'); navigate('/expenses'); }}>
-                        <span className="nav-icon">💳</span>
-                        <span className="nav-label">Expenses</span>
-                    </div>
-                    <div className={`nav-item ${activeNav === 'trips' ? 'active' : ''}`} onClick={() => { setActiveNav('trips'); navigate('/trips'); }}>
-                        <span className="nav-icon">✈️</span>
-                        <span className="nav-label">Trips</span>
-                    </div>
-                    <div className={`nav-item ${activeNav === 'settings' ? 'active' : ''}`} onClick={() => { setActiveNav('settings'); navigate('/settings'); }}>
-                        <span className="nav-icon">⚙️</span>
-                        <span className="nav-label">Settings</span>
-                    </div>
-                    <div className={`nav-item logout-item`} onClick={handleLogout}>
-                        <span className="nav-icon">🚪</span>
-                        <span className="nav-label">Logout</span>
-                    </div>
-                </nav>
+                            <span className="nav-label">Home</span>
+                        </div>
+                        <div className={`nav-item ${activeNav === 'expenses' ? 'active' : ''}`} onClick={() => { setActiveNav('expenses'); navigate('/expenses'); }}>
+                            <span className="nav-icon">💳</span>
+                            <span className="nav-label">Expenses</span>
+                        </div>
+                        <div className={`nav-item ${activeNav === 'trips' ? 'active' : ''}`} onClick={() => { setActiveNav('trips'); navigate('/trips'); }}>
+                            <span className="nav-icon">✈️</span>
+                            <span className="nav-label">Trips</span>
+                        </div>
+                        <div className={`nav-item ${activeNav === 'settings' ? 'active' : ''}`} onClick={() => { setActiveNav('settings'); navigate('/settings'); }}>
+                            <span className="nav-icon">⚙️</span>
+                            <span className="nav-label">Settings</span>
+                        </div>
+                        <div className={`nav-item logout-item`} onClick={handleLogout}>
+                            <span className="nav-icon">🚪</span>
+                            <span className="nav-label">Logout</span>
+                        </div>
+                    </nav>
 
-            </aside>
+                </aside>
 
-            {/* Main Content */}
-            <main className="main-content">
-                <div className="content-grid">
-                    {/* Summary Section */}
-                    <section className="pending-tasks">
-                        <h2>Summary</h2>
-                        <div className="task-item">
-                            <span className="task-icon">💰</span>
-                            <div className="task-info">
-                                <p className="task-label">Total Spending</p>
+                {/* Main Content */}
+                <main className="main-content">
+                    <div className="content-grid">
+                        {/* Summary Section */}
+                        <section className="pending-tasks">
+                            <h2>Summary</h2>
+                            <div className="task-item">
+                                <span className="task-icon">💰</span>
+                                <div className="task-info">
+                                    <p className="task-label">Total Spending</p>
+                                </div>
+                                <span className="task-count">₹{totalSpending.toFixed(2)}</span>
                             </div>
-                            <span className="task-count">₹{totalSpending.toFixed(2)}</span>
-                        </div>
-                        <div className="task-item">
-                            <span className="task-icon">📊</span>
-                            <div className="task-info">
-                                <p className="task-label">Monthly Average</p>
+                            <div className="task-item">
+                                <span className="task-icon">📊</span>
+                                <div className="task-info">
+                                    <p className="task-label">Monthly Average</p>
+                                </div>
+                                <span className="task-count">₹{monthlyAverage.toFixed(2)}</span>
                             </div>
-                            <span className="task-count">₹{monthlyAverage.toFixed(2)}</span>
-                        </div>
-                        <div className="task-item">
-                            <span className="task-icon">🛒</span>
-                            <div className="task-info">
-                                <p className="task-label">Total Transactions</p>
+                            <div className="task-item">
+                                <span className="task-icon">🛒</span>
+                                <div className="task-info">
+                                    <p className="task-label">Total Transactions</p>
+                                </div>
+                                <span className="task-count">{expenses.length}</span>
                             </div>
-                            <span className="task-count">{expenses.length}</span>
-                        </div>
-                        <div className="task-item">
-                            <span className="task-icon">📈</span>
-                            <div className="task-info">
-                                <p className="task-label">Biggest Category</p>
+                            <div className="task-item">
+                                <span className="task-icon">📈</span>
+                                <div className="task-info">
+                                    <p className="task-label">Biggest Category</p>
+                                </div>
+                                <span className="task-count">{biggestCategory}</span>
                             </div>
-                            <span className="task-count">{biggestCategory}</span>
-                        </div>
-                    </section>
+                        </section>
 
-                    {/* Recent Expenses */}
-                    <section className="recent-expenses">
-                        <h2>Recent Expenses</h2>
-                        {expenses.length === 0 ? (
-                            <p style={{ color: '#999', textAlign: 'center', padding: '20px' }}>
-                                No expenses yet. Add one to get started!
-                            </p>
-                        ) : (
-                            <table className="expenses-table">
-                                <thead>
-                                    <tr>
-                                        <th>Description</th>
-                                        <th>Category</th>
-                                        <th>Date</th>
-                                        <th>Amount</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {expenses.map(expense => (
-                                        <tr key={expense.id}>
-                                            <td>{expense.description}</td>
-                                            <td><span className={`badge badge-${expense.categoryBadge}`}>{expense.category}</span></td>
-                                            <td>{expense.date}</td>
-                                            <td>₹{expense.amount.toFixed(2)}</td>
+                        {/* Recent Expenses */}
+                        <section className="recent-expenses">
+                            <h2>Recent Expenses</h2>
+                            {expenses.length === 0 ? (
+                                <p style={{ color: '#999', textAlign: 'center', padding: '20px' }}>
+                                    No expenses yet. Add one to get started!
+                                </p>
+                            ) : (
+                                <table className="expenses-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Description</th>
+                                            <th>Category</th>
+                                            <th>Date</th>
+                                            <th>Amount</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {expenses.map(expense => (
+                                            <tr key={expense.id}>
+                                                <td>{expense.description}</td>
+                                                <td><span className={`badge badge-${expense.categoryBadge}`}>{expense.category}</span></td>
+                                                <td>{expense.date}</td>
+                                                <td>₹{expense.amount.toFixed(2)}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            )}
+                        </section>
+                    </div>
+
+                    {/* Monthly Budget Section */}
+                    <section className="budget-section">
+                        <div className="budget-header">
+                            <h2>💰 Monthly Budget Tracker</h2>
+                            <button
+                                className="btn-set-budget"
+                                onClick={() => setShowBudgetForm(!showBudgetForm)}
+                            >
+                                {currentMonthBudget ? '✏️ Edit Budget' : '➕ Set Budget'}
+                            </button>
+                        </div>
+
+                        {showBudgetForm && (
+                            <div className="budget-form">
+                                <input
+                                    type="number"
+                                    placeholder="Enter monthly budget amount (₹)"
+                                    value={budgetAmount}
+                                    onChange={(e) => setBudgetAmount(e.target.value)}
+                                    step="0.01"
+                                    min="0"
+                                />
+                                <button className="btn-confirm" onClick={handleSetBudget}>✓ Set</button>
+                                <button
+                                    className="btn-cancel-form"
+                                    onClick={() => {
+                                        setShowBudgetForm(false);
+                                        setBudgetAmount('');
+                                    }}
+                                >
+                                    ✕ Cancel
+                                </button>
+                            </div>
+                        )}
+
+                        {currentMonthBudget ? (
+                            <div className="budget-info">
+                                <div className="budget-stats">
+                                    <div className="stat-card">
+                                        <span className="stat-label">Monthly Budget</span>
+                                        <span className="stat-value">₹{currentMonthBudget.toFixed(2)}</span>
+                                    </div>
+                                    <div className="stat-card">
+                                        <span className="stat-label">Amount Spent</span>
+                                        <span className="stat-value spent">₹{currentMonthSpent.toFixed(2)}</span>
+                                    </div>
+                                    <div className="stat-card">
+                                        <span className="stat-label">Remaining</span>
+                                        <span className={`stat-value ${remaining! >= 0 ? 'positive' : 'negative'}`}>
+                                            ₹{remaining!.toFixed(2)}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div className="budget-progress">
+                                    <div className="progress-label">
+                                        <span>Budget Used: {budgetPercentage.toFixed(1)}%</span>
+                                        <span className={budgetPercentage > 100 ? 'over-budget' : ''}>
+                                            {budgetPercentage > 100 ? '⚠️ Over Budget!' : '✓ On Track'}
+                                        </span>
+                                    </div>
+                                    <div className="progress-bar">
+                                        <div
+                                            className={`progress-fill ${budgetPercentage > 100 ? 'danger' : budgetPercentage > 75 ? 'warning' : 'success'}`}
+                                            style={{ width: `${Math.min(budgetPercentage, 100)}%` }}
+                                        ></div>
+                                    </div>
+                                    <div className="progress-info">
+                                        You have <strong>₹{remaining! >= 0 ? remaining!.toFixed(2) : Math.abs(remaining!).toFixed(2)}</strong> {remaining! >= 0 ? 'left to spend' : 'overspent'} this month.
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="budget-empty">
+                                <p>📅 No budget set for this month yet.</p>
+                                <p style={{ fontSize: '13px', color: '#666', marginTop: '8px' }}>Set a budget to track your spending and manage your finances better.</p>
+                            </div>
                         )}
                     </section>
-                </div>
 
-                {/* Quick Access */}
-                <section className="quick-access">
-                    <h2>Quick Access</h2>
-                    <div className="quick-buttons">
-                        <button className="quick-btn btn-expense" onClick={() => navigate('/add-expense')}>
-                            <span className="btn-icon">➕</span>
-                            <span className="btn-text">Add Expense</span>
-                        </button>
-                        <button className="quick-btn btn-receipt">
-                            <span className="btn-icon">📸</span>
-                            <span className="btn-text">Receipt Photo</span>
-                        </button>
-                        <button className="quick-btn btn-report">
-                            <span className="btn-icon">📋</span>
-                            <span className="btn-text">View Report</span>
-                        </button>
-                        <button className="quick-btn btn-trip">
-                            <span className="btn-icon">✈️</span>
-                            <span className="btn-text">Plan Trip</span>
-                        </button>
-                    </div>
-                </section>
+                    {/* Quick Access */}
+                    <section className="quick-access">
+                        <h2>Quick Access</h2>
+                        <div className="quick-buttons">
+                            <button className="quick-btn btn-expense" onClick={() => navigate('/add-expense')}>
+                                <span className="btn-icon">➕</span>
+                                <span className="btn-text">Add Expense</span>
+                            </button>
+                            <button className="quick-btn btn-receipt" onClick={() => navigate('/receipt')}>
+                                <span className="btn-icon">📸</span>
+                                <span className="btn-text">Receipt Photo</span>
+                            </button>
+                            <button className="quick-btn btn-report" onClick={() => navigate('/report')}>
+                                <span className="btn-icon">📋</span>
+                                <span className="btn-text">View Report</span>
+                            </button>
+                            <button className="quick-btn btn-trip" onClick={() => navigate('/trips')}>
+                                <span className="btn-icon">✈️</span>
+                                <span className="btn-text">Plan Trip</span>
+                            </button>
+                        </div>
+                    </section>
 
-                {/* Spending Analysis */}
-                <section className="monthly-report">
-                    <h2>Spending Analysis</h2>
-                    <div className="charts-container">
-                        <div className="chart">
-                            <h3>Monthly Spending Trend (Last 6 Months)</h3>
-                            <div className="chart-placeholder">
-                                {monthlyTrend.map((value, index) => (
-                                    <div
-                                        key={index}
-                                        className="bar"
-                                        style={{ height: maxMonthlyValue > 0 ? (value / maxMonthlyValue) * 100 + '%' : '5%' }}
-                                        title={`₹${value.toFixed(2)}`}
-                                    ></div>
-                                ))}
+                    {/* Spending Analysis */}
+                    <section className="monthly-report">
+                        <h2>Spending Analysis</h2>
+                        <div className="charts-container">
+                            <div className="chart">
+                                <h3>Monthly Spending Trend (Last 6 Months)</h3>
+                                <div className="chart-placeholder">
+                                    {monthlyTrend.map((value, index) => (
+                                        <div
+                                            key={index}
+                                            className="bar"
+                                            style={{ height: maxMonthlyValue > 0 ? (value / maxMonthlyValue) * 100 + '%' : '5%' }}
+                                            title={`₹${value.toFixed(2)}`}
+                                        ></div>
+                                    ))}
+                                </div>
+                                <div className="chart-labels">{monthLabels.join(' - ')}</div>
                             </div>
-                            <div className="chart-labels">{monthLabels.join(' - ')}</div>
-                        </div>
-                        <div className="chart">
-                            <h3>Spending by Category</h3>
-                            <div className="chart-placeholder">
-                                {categoryValues.map((value, index) => (
-                                    <div
-                                        key={index}
-                                        className="bar"
-                                        style={{ height: maxCategoryValue > 0 ? (value / maxCategoryValue) * 100 + '%' : '5%' }}
-                                        title={`${categories[index]}: ₹${value.toFixed(2)}`}
-                                    ></div>
-                                ))}
+                            <div className="chart">
+                                <h3>Spending by Category</h3>
+                                <div className="chart-placeholder">
+                                    {categoryValues.map((value, index) => (
+                                        <div
+                                            key={index}
+                                            className="bar"
+                                            style={{ height: maxCategoryValue > 0 ? (value / maxCategoryValue) * 100 + '%' : '5%' }}
+                                            title={`${categories[index]}: ₹${value.toFixed(2)}`}
+                                        ></div>
+                                    ))}
+                                </div>
+                                <div className="chart-labels">Food - Utilities - Transport - Entertainment - Other</div>
                             </div>
-                            <div className="chart-labels">Food - Utilities - Transport - Entertainment - Other</div>
                         </div>
-                    </div>
-                </section>
-            </main>
+                    </section>
+                </main>
             </div>
             <Footer />
         </div>

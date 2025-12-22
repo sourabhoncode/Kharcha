@@ -91,8 +91,8 @@ const LoginPage: React.FC = () => {
                 </form>
 
                 <div className="auth-footer">
-                    <p>Don't have an account? <a onClick={() => navigate('/register')}>Sign Up</a></p>
-                    <p><a href="#forgot">Forgot Password?</a></p>
+                    <p>Don't have an account? <button onClick={() => navigate('/register')} style={{ background: 'none', border: 'none', color: '#00d4ff', cursor: 'pointer', textDecoration: 'underline' }}>Sign Up</button></p>
+                    <p><button onClick={() => { }} style={{ background: 'none', border: 'none', color: '#00d4ff', cursor: 'pointer', textDecoration: 'underline' }}>Forgot Password?</button></p>
                 </div>
             </div>
 

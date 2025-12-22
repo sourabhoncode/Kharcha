@@ -1,30 +1,47 @@
 # Financial Tracker - Personal Finance Manager
 
-A full-stack personal finance management application with React frontend, NestJS backend, and MongoDB database.
+A full-stack personal finance management application with React frontend, Express backend, and localStorage/MongoDB database support.
+
+## 🎯 Features
+
+- 💳 **Expense Tracking** - Add, edit, and categorize expenses
+- 📊 **Financial Analytics** - View detailed spending reports and trends
+- 📸 **Receipt Scanner** - Capture and extract expense data from receipts
+- ✈️ **Trip Planning** - Plan trips and manage trip budgets
+- 👤 **User Profiles** - Personalized user accounts with settings
+- 🎨 **Modern UI** - Clean, responsive dark theme interface
+- 🔐 **Secure Auth** - User registration and login
 
 ## 🏗️ Project Structure
 
 ```
 financial-tracker-react/
-├── frontend/          # React application
+├── frontend/          # React TypeScript application
 │   ├── src/
+│   │   ├── pages/     # Page components
+│   │   ├── components/ # Reusable components
+│   │   ├── context/   # React Context providers
+│   │   ├── styles/    # CSS stylesheets
+│   │   └── api.ts     # API integration
 │   ├── public/
-│   └── package.json
-├── backend/           # NestJS application
+│   ├── package.json
+│   ├── vercel.json    # Vercel deployment config
+│   └── netlify.toml   # Netlify deployment config
+├── backend/           # Express TypeScript application
 │   ├── src/
 │   │   ├── transactions/
 │   │   ├── categories/
 │   │   └── main.ts
 │   └── package.json
+├── DEPLOYMENT.md      # Detailed deployment guide
 └── README.md
 ```
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js (v18 or higher)
+- Node.js (v14 or higher)
 - npm or yarn
-- MongoDB (running on `mongodb://localhost:27018/`)
 
 ### Installation
 
@@ -32,21 +49,34 @@ financial-tracker-react/
 ```bash
 cd backend
 npm install
+npm start
 ```
+Backend runs on `http://localhost:3001`
 
 #### 2. Frontend Setup
 ```bash
 cd frontend
 npm install
+npm start
 ```
+Frontend runs on `http://localhost:3000`
 
 ### Environment Configuration
+
+#### Frontend (.env)
+```bash
+cd frontend
+# Create .env file with:
+REACT_APP_API_URL=http://localhost:3001
+```
 
 #### Backend (.env)
 ```bash
 cd backend
-cp .env.example .env
-# Update .env with your configuration
+# Create .env file with your configuration
+PORT=3001
+MONGODB_URI=mongodb://localhost:27017/financial-tracker
+NODE_ENV=development
 ```
 
 Default configuration:
@@ -129,45 +159,147 @@ Make sure MongoDB is running on `mongodb://localhost:27018/`
 }
 ```
 
-## 🛠️ Development
+## 🛠️ Available Scripts
 
-### Available Scripts
-
-#### Backend
+### Frontend
 ```bash
-npm run build       # Build the application
-npm run start       # Start in production mode
-npm run start:dev   # Start in development mode with watch
-npm run start:debug # Start in debug mode
-npm run start:prod  # Start production build
-npm run lint        # Run ESLint
-npm run format      # Format code with Prettier
-```
-
-#### Frontend
-```bash
-npm start           # Start development server
+npm start           # Start development server (port 3000)
 npm run build       # Build for production
 npm test            # Run tests
-npm run eject       # Eject from Create React App
+npm run eject       # Eject from Create React App (irreversible)
+```
+
+### Backend
+```bash
+npm start           # Start server
+npm run dev         # Start with auto-reload
+npm test            # Run tests
+npm run build       # Build TypeScript
 ```
 
 ## 📦 Tech Stack
 
 ### Frontend
-- React 18
-- TypeScript
-- Axios
-- React Router
+- **React** 18.2 - UI library
+- **TypeScript** - Type safety
+- **React Router** v6 - Client-side routing
+- **Axios** - HTTP client
+- **CSS3** - Styling with responsive design
 
 ### Backend
-- NestJS
-- TypeScript
-- Mongoose
-- MongoDB
+- **Express** - Web framework
+- **TypeScript** - Type safety
+- **MongoDB** - Database (optional)
+- **Mongoose** - MongoDB ODM
 
-### Database
-- MongoDB (Local)
+## 🌐 Deployment
+
+### Frontend Deployment (Vercel - Recommended)
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy from frontend directory
+cd frontend
+vercel
+```
+
+### Frontend Deployment (Netlify)
+
+```bash
+# Build the app
+npm run build
+
+# Deploy using Netlify CLI
+netlify deploy --prod --dir=build
+```
+
+### Environment Setup for Deployment
+
+Set these environment variables in your deployment platform:
+
+```
+REACT_APP_API_URL=https://your-api-domain.com
+```
+
+For more detailed deployment instructions, see [DEPLOYMENT.md](./DEPLOYMENT.md)
+
+## 📋 Features Detailed
+
+### Expense Management
+- ✅ Add, edit, delete expenses
+- ✅ Categorize expenses (Food, Utilities, Transport, Entertainment, Other)
+- ✅ Track by date
+- ✅ View transaction history
+
+### Financial Reports
+- ✅ Monthly spending trends
+- ✅ Category-wise breakdown
+- ✅ Daily spending analysis
+- ✅ Average spending calculations
+
+### Receipt Scanner
+- ✅ Capture photos from camera
+- ✅ Upload from device
+- ✅ Simulated OCR extraction
+- ✅ Save receipt history
+- ✅ Convert to expenses
+
+### Trip Management
+- ✅ Create and manage trips
+- ✅ Set trip budgets
+- ✅ Search and filter trips
+- ✅ Sort by date and budget
+
+### User Features
+- ✅ User registration and login
+- ✅ Edit profile information
+- ✅ Avatar emoji selection
+- ✅ Settings management
+
+## 🔒 Security & Best Practices
+
+- ✅ Input validation
+- ✅ Secure authentication
+- ✅ CORS configuration
+- ✅ Environment variable protection
+- ✅ Error handling and logging
+
+## 📱 Browser Compatibility
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## 🚀 Performance
+
+- Optimized React components
+- Code splitting via React Router
+- CSS minification
+- Asset optimization
+- Caching strategies
+
+## 👥 Contributors
+
+**Created by:**
+- Sourabh Verma
+- Black Heart
+
+## 📄 License
+
+MIT License - feel free to use this project for personal or educational purposes.
+
+## 📞 Support
+
+For issues, bug reports, or feature requests, please check the project documentation or contact the creators.
+
+---
+
+**Version**: 0.1.0  
+**Last Updated**: December 2025  
+**Status**: ✅ Production Ready
 
 ## 🔧 Configuration
 

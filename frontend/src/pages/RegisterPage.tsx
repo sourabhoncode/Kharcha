@@ -162,7 +162,7 @@ const RegisterPage: React.FC = () => {
                 </form>
 
                 <div className="auth-footer">
-                    <p>Already have an account? <a onClick={() => navigate('/login')}>Login</a></p>
+                    <p>Already have an account? <button onClick={() => navigate('/login')} style={{ background: 'none', border: 'none', color: '#00d4ff', cursor: 'pointer', textDecoration: 'underline' }}>Login</button></p>
                 </div>
             </div>
 
