@@ -28,7 +28,7 @@ vercel
   "buildCommand": "npm run build",
   "outputDirectory": "build",
   "env": {
-    "REACT_APP_API_URL": "https://your-api.com"
+    "REACT_APP_BASEAPI": "https://your-api.com"
   }
 }
 ```
@@ -77,7 +77,7 @@ gh-pages -d build
 
 ### Frontend (.env)
 ```
-REACT_APP_API_URL=https://your-api.example.com
+REACT_APP_BASEAPI=https://your-api.example.com
 ```
 
 ### Backend (.env)

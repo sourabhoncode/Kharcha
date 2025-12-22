@@ -128,7 +128,7 @@ gh-pages -d build
 
 ### Frontend (.env)
 ```
-REACT_APP_API_URL=https://your-api-domain.com
+REACT_APP_BASEAPI=https://your-api-domain.com
 ```
 
 ### Backend (.env)
@@ -240,7 +240,7 @@ npm run build
 ```
 
 ### API Connection Issues
-- Verify REACT_APP_API_URL in .env
+- Verify REACT_APP_BASEAPI in .env
 - Check backend is running
 - Verify CORS configuration
 

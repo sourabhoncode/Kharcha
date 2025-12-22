@@ -135,14 +135,14 @@ npm run build
 cat .env
 
 # 3. Update API URL
-# Change REACT_APP_API_URL to your production API
+# Change REACT_APP_BASEAPI to your production API
 ```
 
 ### Environment Variables
 
 **Frontend (.env)**
 ```
-REACT_APP_API_URL=https://your-api.example.com
+REACT_APP_BASEAPI=https://your-api.example.com
 ```
 
 **Backend (.env)**

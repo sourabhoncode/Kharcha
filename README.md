@@ -67,7 +67,7 @@ Frontend runs on `http://localhost:3000`
 ```bash
 cd frontend
 # Create .env file with:
-REACT_APP_API_URL=http://localhost:3001
+REACT_APP_BASEAPI=http://localhost:3001
 ```
 
 #### Backend (.env)
@@ -94,7 +94,7 @@ cp .env.example .env
 
 Default configuration:
 ```
-REACT_APP_API_URL=http://localhost:3001
+REACT_APP_BASEAPI=http://localhost:3001
 ```
 
 ### Running the Application
@@ -220,7 +220,7 @@ netlify deploy --prod --dir=build
 Set these environment variables in your deployment platform:
 
 ```
-REACT_APP_API_URL=https://your-api-domain.com
+REACT_APP_BASEAPI=https://your-api-domain.com
 ```
 
 For more detailed deployment instructions, see [DEPLOYMENT.md](./DEPLOYMENT.md)

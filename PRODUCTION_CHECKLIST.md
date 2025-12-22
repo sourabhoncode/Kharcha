@@ -57,7 +57,7 @@ npm run build
 ### 2. Environment Variables
 ```bash
 # Create .env file or set in deployment platform:
-REACT_APP_API_URL=https://your-api-domain.com
+REACT_APP_BASEAPI=https://your-api-domain.com
 ```
 
 ### 3. Deploy to Vercel (Recommended)

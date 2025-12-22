@@ -4,13 +4,13 @@
 
 ### For Vercel Dashboard (Production)
 ```
-REACT_APP_API_URL=https://your-backend-name.vercel.app/api
+REACT_APP_BASEAPI=https://your-backend-name.vercel.app/api
 ```
 
 ### For Local Development
 Create file: `frontend/.env.local`
 ```env
-REACT_APP_API_URL=http://localhost:3001/api
+REACT_APP_BASEAPI=http://localhost:3001/api
 ```
 
 ---
@@ -69,6 +69,6 @@ mongodb+srv://myuser:mypassword@cluster0.mongodb.net/financial-tracker?retryWrit
 
 - **Never commit `.env` or `.env.local` files** to Git
 - **Never share** your MongoDB connection string in public
-- Update `REACT_APP_API_URL` in frontend after backend deployment
+- Update `REACT_APP_BASEAPI` in frontend after backend deployment
 - Whitelist Vercel's IP ranges in MongoDB Atlas if using IP restrictions
 

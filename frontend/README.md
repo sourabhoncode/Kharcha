@@ -50,7 +50,7 @@ The application provides a user-friendly interface for:
 
 The application uses Axios for API requests. Configure the API URL in `.env`:
 ```
-REACT_APP_API_URL=http://localhost:3001
+REACT_APP_BASEAPI=http://localhost:3001
 ```
 
 All API calls go through the `api.ts` file which provides:
@@ -73,7 +73,7 @@ The application uses CSS modules and CSS files for styling. Main styles are in `
 
 Create a `.env` file with:
 ```
-REACT_APP_API_URL=http://localhost:3001
+REACT_APP_BASEAPI=http://localhost:3001
 ```
 
 ## Building Components

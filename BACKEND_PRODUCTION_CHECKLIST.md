@@ -108,7 +108,7 @@ Content-Type: application/json
 After backend is deployed:
 
 1. Go to **Frontend Vercel Project** → **Settings** → **Environment Variables**
-2. Update `REACT_APP_API_URL` to:
+2. Update `REACT_APP_BASEAPI` to:
    ```
    https://your-backend-url/api
    ```

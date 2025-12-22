@@ -11,7 +11,7 @@
 ```bash
 cd frontend
 # Edit .env file with your production API URL
-# REACT_APP_API_URL=https://your-api-domain.com
+# REACT_APP_BASEAPI=https://your-api-domain.com
 ```
 
 ### Step 2️⃣: Choose Your Platform

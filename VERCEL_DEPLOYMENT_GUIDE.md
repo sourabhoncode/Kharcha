@@ -46,7 +46,7 @@ In the Vercel dashboard, go to your project → **Settings → Environment Varia
 Add these variables:
 | Name | Value | Example |
 |------|-------|---------|
-| `REACT_APP_API_URL` | Your backend API URL | `https://financial-tracker-api.vercel.app/api` |
+| `REACT_APP_BASEAPI` | Your backend API URL | `https://financial-tracker-api.vercel.app/api` |
 
 Click **Deploy** and wait for the build to complete.
 
@@ -102,7 +102,7 @@ Click **Deploy** and wait for the build to complete.
 Once both are deployed, update the frontend environment variable:
 
 1. Go to frontend project → **Settings → Environment Variables**
-2. Update `REACT_APP_API_URL` to point to your backend URL:
+2. Update `REACT_APP_BASEAPI` to point to your backend URL:
    ```
    https://financial-tracker-api.vercel.app/api
    ```
@@ -140,7 +140,7 @@ Available endpoints:
 ## Troubleshooting
 
 ### Frontend Not Loading
-- ✅ Check `REACT_APP_API_URL` is set correctly in environment variables
+- ✅ Check `REACT_APP_BASEAPI` is set correctly in environment variables
 - ✅ Verify CORS is enabled in backend (`app.enableCors()`)
 - ✅ Check browser console for errors
 
@@ -176,7 +176,7 @@ npm start
 
 Update `frontend/.env.local`:
 ```env
-REACT_APP_API_URL=http://localhost:3001/api
+REACT_APP_BASEAPI=http://localhost:3001/api
 ```
 
 ---
