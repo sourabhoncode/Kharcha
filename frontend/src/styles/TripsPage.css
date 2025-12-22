@@ -596,7 +596,7 @@
     }
 
     .trips-header h1 {
-        font-size: 32px;
+        font-size: 28px;
     }
 
     .form-grid {
@@ -628,44 +628,127 @@
     .stat-card {
         flex-direction: row;
     }
+
+    .trip-card {
+        padding: 15px;
+    }
+
+    .btn-add-trip {
+        width: 100%;
+    }
 }
 
 @media (max-width: 480px) {
     .trips-header {
         gap: 10px;
+        padding-bottom: 10px;
     }
 
     .trips-header h1 {
-        font-size: 24px;
+        font-size: 20px;
     }
 
     .header-subtitle {
         display: none;
     }
 
-    .add-trip-form {
-        padding: 20px;
+    .add-trip-btn {
+        width: 100%;
+        padding: 12px 15px;
+        font-size: 13px;
     }
 
-    .btn-add-trip {
+    .add-trip-form {
+        padding: 15px;
+    }
+
+    .form-grid {
+        gap: 10px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 12px;
+        font-size: 13px;
+    }
+
+    .form-actions button {
+        padding: 10px 16px;
+        font-size: 12px;
         width: 100%;
-        justify-content: center;
     }
 
     .trip-card {
-        padding: 16px;
+        padding: 12px;
     }
 
-    .edit-form-row {
-        grid-template-columns: 1fr;
+    .trip-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .trip-name {
+        font-size: 14px;
+    }
+
+    .trip-dates {
+        font-size: 11px;
+    }
+
+    .trip-info {
+        font-size: 12px;
+    }
+
+    .trip-amounts {
+        flex-direction: row;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .trip-amount {
+        font-size: 12px;
     }
 
     .trip-footer {
         width: 100%;
+        gap: 8px;
     }
 
     .btn-icon {
+        padding: 8px 12px;
+        font-size: 12px;
         width: 100%;
         justify-content: center;
+    }
+
+    .controls-section {
+        gap: 10px;
+    }
+
+    .search-container input {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    .sort-select {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    .stats-grid {
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 12px;
+    }
+
+    .stat-value {
+        font-size: 16px;
+    }
+
+    .stat-label {
+        font-size: 11px;
     }
 }

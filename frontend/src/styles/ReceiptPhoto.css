@@ -461,3 +461,86 @@
         width: 100%;
     }
 }
+
+@media (max-width: 480px) {
+    .receipt-container {
+        padding: 15px;
+    }
+
+    .receipt-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .receipt-header h1 {
+        font-size: 18px;
+    }
+
+    .back-btn {
+        width: 100%;
+    }
+
+    .receipt-preview {
+        min-height: 250px;
+        padding: 12px;
+    }
+
+    .receipt-image {
+        max-height: 250px;
+    }
+
+    .upload-method-selector {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .upload-method {
+        padding: 15px;
+    }
+
+    .upload-method-label {
+        font-size: 12px;
+    }
+
+    .form-group label {
+        font-size: 12px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 12px;
+        font-size: 13px;
+    }
+
+    .form-actions {
+        gap: 10px;
+    }
+
+    .btn-save-receipt,
+    .btn-cancel {
+        padding: 12px 20px;
+        font-size: 13px;
+    }
+
+    .receipts-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .receipt-card {
+        padding: 10px;
+    }
+
+    .receipt-image-thumb {
+        max-height: 150px;
+    }
+
+    .receipt-info {
+        font-size: 12px;
+    }
+
+    .receipt-amount {
+        font-size: 14px;
+    }
+}

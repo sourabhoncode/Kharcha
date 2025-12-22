@@ -405,13 +405,33 @@
         font-size: 24px;
     }
 
+    .btn-add-expense {
+        width: 100%;
+        padding: 14px 20px;
+    }
+
+    .summary-cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
     .filters-section {
         flex-direction: column;
-        gap: 15px;
+        gap: 12px;
     }
 
     .search-box {
         min-width: auto;
+    }
+
+    .date-range-filter {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .filter-input-date,
+    .filter-select {
+        width: 100%;
     }
 
     .filter-group {
@@ -428,11 +448,103 @@
 
     .expenses-table th,
     .expenses-table td {
-        padding: 10px;
+        padding: 10px 8px;
     }
 
     .col-date {
         display: none;
+    }
+
+    .col-action {
+        padding: 8px 4px;
+    }
+
+    .bulk-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-delete-bulk {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .expenses-header {
+        padding-bottom: 15px;
+    }
+
+    .expenses-header h1 {
+        font-size: 20px;
+    }
+
+    .summary-cards {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .summary-card {
+        padding: 15px;
+    }
+
+    .summary-label {
+        font-size: 11px;
+    }
+
+    .summary-value {
+        font-size: 20px;
+    }
+
+    .search-input {
+        font-size: 13px;
+        padding: 12px 12px 12px 36px;
+    }
+
+    .filter-input-date,
+    .filter-select {
+        font-size: 13px;
+        padding: 12px;
+    }
+
+    .btn-clear-date-range {
+        width: 100%;
+    }
+
+    .filter-group label {
+        font-size: 11px;
+    }
+
+    .category-item {
+        padding: 10px 8px;
+    }
+
+    .category-name,
+    .category-amount {
+        font-size: 13px;
+    }
+
+    .expenses-table {
+        font-size: 11px;
+    }
+
+    .expenses-table th,
+    .expenses-table td {
+        padding: 8px 6px;
+    }
+
+    .col-action {
+        gap: 4px;
+    }
+
+    .btn-edit,
+    .btn-delete {
+        font-size: 14px;
+        padding: 4px;
+    }
+
+    .badge {
+        padding: 3px 8px;
+        font-size: 11px;
     }
 }
 

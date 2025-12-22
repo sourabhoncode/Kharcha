@@ -135,3 +135,37 @@
         font-size: 12px;
     }
 }
+
+@media (max-width: 480px) {
+    .footer {
+        padding: 30px 15px;
+    }
+
+    .footer-logo-section {
+        margin-bottom: 20px;
+    }
+
+    .footer-logo {
+        font-size: 20px;
+    }
+
+    .footer-tagline {
+        font-size: 11px;
+    }
+
+    .footer-section h4 {
+        font-size: 11px;
+    }
+
+    .footer-section li a {
+        font-size: 11px;
+    }
+
+    .footer-copyright {
+        font-size: 10px;
+    }
+
+    .creator-link {
+        font-size: 11px;
+    }
+}

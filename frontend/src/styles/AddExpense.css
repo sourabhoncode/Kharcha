@@ -187,3 +187,37 @@
         flex-direction: column;
     }
 }
+
+@media (max-width: 480px) {
+    .add-expense-card {
+        padding: 15px;
+        margin: 10px;
+    }
+
+    .add-expense-header h1 {
+        font-size: 18px;
+    }
+
+    .form-group label {
+        font-size: 12px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 12px;
+        font-size: 13px;
+    }
+
+    .back-btn,
+    .cancel-btn,
+    .submit-btn {
+        padding: 12px 20px;
+        font-size: 13px;
+        width: 100%;
+    }
+
+    .form-actions {
+        gap: 10px;
+    }
+}

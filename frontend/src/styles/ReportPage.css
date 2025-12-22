@@ -416,3 +416,76 @@
         height: 20px;
     }
 }
+
+@media (max-width: 480px) {
+    .report-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .report-header h1 {
+        font-size: 18px;
+    }
+
+    .summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .summary-card {
+        padding: 12px;
+    }
+
+    .summary-label {
+        font-size: 10px;
+    }
+
+    .summary-value {
+        font-size: 16px;
+    }
+
+    .report-selector {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .report-tab {
+        padding: 6px 10px;
+        font-size: 11px;
+    }
+
+    .bar-chart {
+        gap: 6px;
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
+
+    .bar-wrapper {
+        min-width: 40px;
+    }
+
+    .bar {
+        width: 20px;
+    }
+
+    .category-breakdown {
+        grid-template-columns: 1fr;
+    }
+
+    .category-card {
+        padding: 12px;
+    }
+
+    .daily-item {
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .daily-date {
+        font-size: 12px;
+    }
+
+    .daily-amount {
+        font-size: 14px;
+    }
+}

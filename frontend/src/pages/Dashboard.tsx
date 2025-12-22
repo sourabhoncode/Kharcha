@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../context/UserContext';
 import { useExpenses } from '../context/ExpensesContext';
@@ -17,40 +17,27 @@ const Dashboard: React.FC = () => {
     const [budgetAmount, setBudgetAmount] = useState('');
     const [showBudgetForm, setShowBudgetForm] = useState(false);
 
-    const handleLogout = () => {
-        logout();
-        navigate('/');
-    };
+    // IMPORTANT: All hooks must be called unconditionally before any conditional returns
+    // Memoize expensive calculations
+    const totalSpending = useMemo(() => getTotalSpending(), [expenses]);
+    const monthlyAverage = useMemo(() => getMonthlyAverage(), [expenses]);
+    const biggestCategory = useMemo(() => getBiggestCategory(), [expenses]);
 
-    if (!user) {
-        return (
-            <div style={{ textAlign: 'center', padding: '50px', color: '#fff' }}>
-                <h2>Please log in first</h2>
-                <button onClick={() => navigate('/login')}>Go to Login</button>
-            </div>
-        );
-    }
-
-    const totalSpending = getTotalSpending();
-    const monthlyAverage = getMonthlyAverage();
-    const biggestCategory = getBiggestCategory();
-
-    // Calculate spending by category
-    const getCategorySpending = () => {
+    // Memoize category spending calculation
+    const categorySpending = useMemo(() => {
         const categoryTotals: Record<string, number> = {};
         expenses.forEach(exp => {
             categoryTotals[exp.category] = (categoryTotals[exp.category] || 0) + exp.amount;
         });
         return categoryTotals;
-    };
+    }, [expenses]);
 
-    const categorySpending = getCategorySpending();
     const categories = ['Food', 'Utilities', 'Transport', 'Entertainment', 'Other'];
-    const categoryValues = categories.map(cat => categorySpending[cat] || 0);
-    const maxCategoryValue = Math.max(...categoryValues, 1);
+    const categoryValues = useMemo(() => categories.map(cat => categorySpending[cat] || 0), [categorySpending]);
+    const maxCategoryValue = useMemo(() => Math.max(...categoryValues, 1), [categoryValues]);
 
-    // Calculate monthly spending trend (last 6 months)
-    const getMonthlyTrend = () => {
+    // Memoize monthly trend calculation
+    const { monthlyTotals, monthLabels, monthlyTrend, maxMonthlyValue } = useMemo(() => {
         const monthlyTotals: Record<string, number> = {};
         const fullMonthNames = ['January', 'February', 'March', 'April', 'May', 'June',
             'July', 'August', 'September', 'October', 'November', 'December'];
@@ -61,45 +48,60 @@ const Dashboard: React.FC = () => {
             monthlyTotals[month] = (monthlyTotals[month] || 0) + exp.amount;
         });
 
-        return monthlyTotals;
-    };
-
-    const getLastSixMonths = () => {
         const currentMonth = new Date().getMonth();
-        const fullMonthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-            'July', 'August', 'September', 'October', 'November', 'December'];
-
         let startMonth, endMonth;
         if (currentMonth <= 5) {
-            // January to June
             startMonth = 0;
             endMonth = 5;
         } else {
-            // July to December
             startMonth = 6;
             endMonth = 11;
         }
 
-        return fullMonthNames.slice(startMonth, endMonth + 1);
-    };
+        const monthLabels = fullMonthNames.slice(startMonth, endMonth + 1);
+        const monthlyTrend = monthLabels.map(month => monthlyTotals[month] || 0);
+        const maxMonthlyValue = Math.max(...monthlyTrend, 1);
 
-    const monthlyTotals = getMonthlyTrend();
-    const monthLabels = getLastSixMonths();
-    const monthlyTrend = monthLabels.map(month => monthlyTotals[month] || 0);
-    const maxMonthlyValue = Math.max(...monthlyTrend, 1);
+        return { monthlyTotals, monthLabels, monthlyTrend, maxMonthlyValue };
+    }, [expenses]);
 
     // Budget calculations
     const now = new Date();
-    const currentMonthBudget = getBudgetForMonth(now.getFullYear(), now.getMonth() + 1);
-    const currentMonthSpent = expenses
-        .filter(exp => {
-            const expDate = new Date(exp.date);
-            return expDate.getMonth() === now.getMonth() && expDate.getFullYear() === now.getFullYear();
-        })
-        .reduce((sum, exp) => sum + exp.amount, 0);
+    const currentMonthBudget = useMemo(() => getBudgetForMonth(now.getFullYear(), now.getMonth() + 1), [now]);
 
-    const remaining = currentMonthBudget ? currentMonthBudget - currentMonthSpent : null;
-    const budgetPercentage = currentMonthBudget ? (currentMonthSpent / currentMonthBudget) * 100 : 0;
+    const { currentMonthSpent, remaining, budgetPercentage } = useMemo(() => {
+        const currentMonthSpent = expenses
+            .filter(exp => {
+                const expDate = new Date(exp.date);
+                return expDate.getMonth() === now.getMonth() && expDate.getFullYear() === now.getFullYear();
+            })
+            .reduce((sum, exp) => sum + exp.amount, 0);
+
+        const remaining = currentMonthBudget ? currentMonthBudget - currentMonthSpent : null;
+        const budgetPercentage = currentMonthBudget ? (currentMonthSpent / currentMonthBudget) * 100 : 0;
+
+        return { currentMonthSpent, remaining, budgetPercentage };
+    }, [expenses, currentMonthBudget, now]);
+
+    // Show only recent 10 expenses to prevent lag
+    const recentExpenses = useMemo(() => {
+        return expenses.slice(0, 10);
+    }, [expenses]);
+
+    const handleLogout = () => {
+        logout();
+        navigate('/');
+    };
+
+    // Now it's safe to have conditional returns - all hooks are already called
+    if (!user) {
+        return (
+            <div style={{ textAlign: 'center', padding: '50px', color: '#fff' }}>
+                <h2>Please log in first</h2>
+                <button onClick={() => navigate('/login')}>Go to Login</button>
+            </div>
+        );
+    }
 
     const handleSetBudget = () => {
         if (budgetAmount && parseFloat(budgetAmount) > 0) {
@@ -206,26 +208,33 @@ const Dashboard: React.FC = () => {
                                     No expenses yet. Add one to get started!
                                 </p>
                             ) : (
-                                <table className="expenses-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Description</th>
-                                            <th>Category</th>
-                                            <th>Date</th>
-                                            <th>Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {expenses.map(expense => (
-                                            <tr key={expense.id}>
-                                                <td>{expense.description}</td>
-                                                <td><span className={`badge badge-${expense.categoryBadge}`}>{expense.category}</span></td>
-                                                <td>{expense.date}</td>
-                                                <td>₹{expense.amount.toFixed(2)}</td>
+                                <>
+                                    <table className="expenses-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Description</th>
+                                                <th>Category</th>
+                                                <th>Date</th>
+                                                <th>Amount</th>
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            {recentExpenses.map(expense => (
+                                                <tr key={expense.id}>
+                                                    <td>{expense.description}</td>
+                                                    <td><span className={`badge badge-${expense.categoryBadge}`}>{expense.category}</span></td>
+                                                    <td>{expense.date}</td>
+                                                    <td>₹{expense.amount.toFixed(2)}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                    {expenses.length > 10 && (
+                                        <p style={{ color: '#999', textAlign: 'center', padding: '10px', fontSize: '12px' }}>
+                                            Showing 10 of {expenses.length} expenses. <button onClick={() => navigate('/expenses')} style={{ color: '#00d4ff', cursor: 'pointer', background: 'none', border: 'none', textDecoration: 'underline', fontSize: 'inherit' }}>View all</button>
+                                        </p>
+                                    )}
+                                </>
                             )}
                         </section>
                     </div>
